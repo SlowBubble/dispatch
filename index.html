@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <title>My HTML File</title>
+  <link rel="stylesheet" href="css/app.css">
+  <script src="https://npmcdn.com/dexie/dist/dexie.js"></script>
+  <script src="lib/angular.min.js"></script>
+  <script src="js/myApp.js"></script>
+</head>
+<body>
+
+  <div ng-controller='mainCtr as ctr'>
+    <h2>Create a subject</h2>
+    <form ng-submit="ctr.createSubject()">
+      <div>
+        <input type='text' ng-model="subjectNameInput" ng-enter="ctr.createSubject()" placeholder="Enter Subject Name"/>
+      </div>
+      <div>
+        <input type="submit" value="Create" >
+      </div>
+    </form>
+
+    <h2>Create a person</h2>
+    <form ng-submit="ctr.createPerson()">
+    <div>
+      <input type='text' ng-model="personNameInput" placeholder="Enter Your Name" ng-enter="ctr.createPerson()"/>
+    </div>
+    <div>
+      <input type="text" ng-model="subjectForPersonInput" list="exampleList" placeholder="Select Subject Name">
+      <datalist id="exampleList">
+          <option ng-repeat="subject in subjects" value="{{subject.name}}">
+      </datalist>
+      <button ng-click="ctr.addSubjectToBatch()" type='button'>Add subject before clicking Create</button>
+      <div ng-repeat="sub in subjectBatch">
+        {{sub}}
+      </div>
+    </div>
+    <div>
+      <input type="submit" value="Create">
+    </div>
+    </form>
+
+    <h2>Add a friend</h2>
+    <form ng-submit="ctr.addFriend()">
+      <div>
+        <input type='text' ng-model="friendSource" list="personList" placeholder="Enter Your Name"/>
+        <datalist id="personList">
+            <option ng-repeat="person in persons" value="{{person.name}}">
+        </datalist>
+      </div>
+      <div>
+        <input type="text" ng-model="friendTarget" list="personList" placeholder="Select a person as your friend">
+        <datalist id="personList">
+            <option ng-repeat="person in persons" value="{{person.name}}">
+        </datalist>
+      </div>
+      <div>
+        <input type="submit" value="Add">
+      </div>
+    </form>
+
+    <h2>Find connection to subject expect</h2>
+    <form ng-submit="ctr.computeConnection()">
+      <div>
+        <input type='text' ng-model="connectionSource" list="personList" placeholder="Enter Your Name"/>
+        <datalist id="personList">
+            <option ng-repeat="person in persons" value="{{person.name}}">
+        </datalist>
+      </div>
+      <div>
+        <input type="text" ng-model="connectionSubjectInput" list="exampleList" placeholder="Select Subject Name">
+        <datalist id="exampleList">
+            <option ng-repeat="subject in subjects" value="{{subject.name}}">
+        </datalist>
+      </div>
+      <div>
+        <input type="submit" value="Query">
+      </div>
+    </form>
+    <div>
+      Connction: {{connection}}
+    </div>
+</body>
+</html>
