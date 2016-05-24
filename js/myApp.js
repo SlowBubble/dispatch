@@ -2,12 +2,11 @@
 db = new Dexie('MyDatabase');
 
 
-	// Define a schema
-	db.version(1)
-		.stores({
-      subjects: '++id, name',
-			persons: '++id, name, *subjects, *friends'
-		});
+// Define a schema
+db.version(1).stores({
+  subjects: '++id, name',
+	persons: '++id, name, *subjects, *friends'
+});
 
 var myApp = angular.module("myApp", []);
 myApp.controller('mainCtr', ['$scope', function($scope) {
@@ -210,7 +209,7 @@ var personDao = {
   }
 }
 
- function toPromiseOfListOfList(listOfPromiseOfListOfPromise) {
+function toPromiseOfListOfList(listOfPromiseOfListOfPromise) {
   promiseOfListOfListOfPromise = Promise.all(listOfPromiseOfListOfPromise);
   promiseOfListOfPromiseOfList = promiseOfListOfListOfPromise.then(function(listOfList){
     return listOfList.map(function(listOfPromises) {
