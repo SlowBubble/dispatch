@@ -44,13 +44,13 @@
     <h2>Add a friend</h2>
     <form ng-submit="ctr.addFriend()">
       <div>
-        <input type='text' ng-model="friendSource" list="personList" placeholder="Enter Your Name"/>
+        <input type='text' ng-model="friendSource" list="personList" placeholder="Select a name"/>
         <datalist id="personList">
             <option ng-repeat="person in persons" value="{{person.name}}">
         </datalist>
       </div>
       <div>
-        <input type="text" ng-model="friendTarget" list="personList" placeholder="Select a person as your friend">
+        <input type="text" ng-model="friendTarget" list="personList" placeholder="Select as friend">
         <datalist id="personList">
             <option ng-repeat="person in persons" value="{{person.name}}">
         </datalist>
@@ -63,13 +63,13 @@
     <h2>Find connection to subject expect</h2>
     <form ng-submit="ctr.computeConnection()">
       <div>
-        <input type='text' ng-model="connectionSource" list="personList" placeholder="Enter Your Name"/>
+        <input type='text' ng-model="connectionSource" list="personList" placeholder="Select a name"/>
         <datalist id="personList">
             <option ng-repeat="person in persons" value="{{person.name}}">
         </datalist>
       </div>
       <div>
-        <input type="text" ng-model="connectionSubjectInput" list="exampleList" placeholder="Select Subject Name">
+        <input type="text" ng-model="connectionSubjectInput" list="exampleList" placeholder="Select subject">
         <datalist id="exampleList">
             <option ng-repeat="subject in subjects" value="{{subject.name}}">
         </datalist>

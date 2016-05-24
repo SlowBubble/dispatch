@@ -32,9 +32,16 @@ myApp.controller('mainCtr', ['$scope', function($scope) {
   }
 
   ctr.addSubjectToBatch = function() {
-    console.log("Adding to batch: " + $scope.subjectForPersonInput)
-    $scope.subjectBatch.push($scope.subjectForPersonInput);
-    $scope.subjectForPersonInput = '';
+    console.log("Adding to batch: " + $scope.subjectForPersonInput);
+    subjectDao.get($scope.subjectForPersonInput).then(function(subject) {
+      if (subject == null) {
+        alert("Invalide subject");
+      } else {
+        $scope.subjectBatch.push($scope.subjectForPersonInput);
+        $scope.subjectForPersonInput = '';
+        $scope.$apply();
+      }
+    });
   }
 
   ctr.addFriend = function() {
@@ -45,16 +52,22 @@ myApp.controller('mainCtr', ['$scope', function($scope) {
     retrievePromise.then(function(values) {
       var source = values[0];
       var target = values[1];
-      var sourceFriends = source.friends;
-      var targetFriends = target.friends;
-      var targetName = target.name;
-      var sourceName = source.name;
-      if (sourceFriends.indexOf(targetName) === -1) {
-        sourceFriends.push(targetName);
-        targetFriends.push(sourceName);
-        addFriendAndAlert();
+      if (source == null || target == null) {
+        alert("Invalid data provided");
       } else {
-        alert("No update because the friend exists already");
+        var sourceFriends = source.friends;
+        var targetFriends = target.friends;
+        var targetName = target.name;
+        var sourceName = source.name;
+        if (targetName === sourceName) {
+          alert("Can't add yourself as a friend.");
+        } else if (sourceFriends.indexOf(targetName) > -1) {
+          alert("No update because the friend exists already");
+        } else {
+          sourceFriends.push(targetName);
+          targetFriends.push(sourceName);
+          addFriendAndAlert();
+        }
       }
 
       function addFriendAndAlert() {
@@ -160,6 +173,16 @@ var subjectDao = {
   },
   getAll: function(result) {
     return db.subjects;
+  },
+  get: function(name) {
+    return db.subjects.where('name').equals(name).toArray(function(subjects) {
+      if (subjects.length === 1) {
+        return subjects[0];
+      } else {
+        console.log("Unable to get unique result: " + subjects);
+        return null;
+      }
+    });
   }
 }
 
